@@ -40,12 +40,12 @@ public class UserService {
             if (attributes.get("updated_at") != null) {
                 Instant dbLastModifiedDate = existingUser.orElseThrow().getLastModifiedDate();
                 Instant idpModifiedDate;
-                if(attributes.get("updated_at") instanceof Instant) {
+                if (attributes.get("updated_at") instanceof Instant) {
                     idpModifiedDate = (Instant) attributes.get("updated_at");
                 } else {
                     idpModifiedDate = Instant.ofEpochSecond((Integer) attributes.get("updated_at"));
                 }
-                if(idpModifiedDate.isAfter(dbLastModifiedDate)) {
+                if (idpModifiedDate.isAfter(dbLastModifiedDate)) {
                     updateUser(user);
                 }
             }
@@ -104,6 +104,6 @@ public class UserService {
             user.setImageUrl((String) attributes.get("picture"));
         }
 
-        return null;
+        return user;
     }
 }

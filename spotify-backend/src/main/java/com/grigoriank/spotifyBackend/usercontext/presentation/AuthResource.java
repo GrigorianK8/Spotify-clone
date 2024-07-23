@@ -30,7 +30,7 @@ public class AuthResource {
         this.registration = registrations.findByRegistrationId("okta");
     }
 
-    @GetMapping("get-authenticated-user")
+    @GetMapping("/get-authenticated-user")
     public ResponseEntity<ReadUserDTO> getAuthenticatedUser(@AuthenticationPrincipal OAuth2User user) {
         if (user == null) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
