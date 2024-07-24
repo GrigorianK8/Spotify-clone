@@ -25,6 +25,7 @@ public class Song implements Serializable {
     @Column(name = "author", nullable = false)
     private String author;
 
+    @Lob
     @Column(name = "cover", nullable = false)
     private byte[] cover;
 

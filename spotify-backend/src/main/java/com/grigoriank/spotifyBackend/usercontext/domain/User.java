@@ -10,6 +10,7 @@ public class User extends AbstractAuditingEntity<Long> {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "userSequenceGenerator")
     @SequenceGenerator(name = "userSequenceGenerator", sequenceName = "user_generator", allocationSize = 1)
+    @Column(name = "id")
     private Long id;
 
     @Column(name = "last_name")

@@ -19,7 +19,7 @@ public class SongContent implements Serializable {
 
     @Lob
     @Column(name = "file", nullable = false)
-    private byte file;
+    private byte[] file;
 
     @Column(name = "file_content_type")
     private String fileContentType;
@@ -40,11 +40,11 @@ public class SongContent implements Serializable {
         this.song = song;
     }
 
-    public byte getFile() {
+    public byte[] getFile() {
         return file;
     }
 
-    public void setFile(byte file) {
+    public void setFile(byte[] file) {
         this.file = file;
     }
 
