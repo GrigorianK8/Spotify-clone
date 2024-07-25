@@ -23,15 +23,6 @@ public class UserService {
         this.userMapper = userMapper;
     }
 
-    public boolean isAuthenticated() {
-        return !SecurityContextHolder.getContext().getAuthentication().getPrincipal().equals("anonymousUser");
-    }
-
-    public Optional<ReadUserDTO> getByEmail(String email) {
-        Optional<User> oneByEmail = userRepository.findOneByEmail(email);
-        return oneByEmail.map(userMapper::readUserDTOToUser);
-    }
-
     public void syncWithIdp(OAuth2User oAuth2User) {
         Map<String, Object> attributes = oAuth2User.getAttributes();
         User user = mapOauth2AttributesToUser(attributes);
@@ -54,10 +45,19 @@ public class UserService {
         }
     }
 
-    public ReadUserDTO getAuthenticateUserFromSecurityContext() {
+    public ReadUserDTO getAuthenticatedUserFromSecurityContext() {
         OAuth2User principal = (OAuth2User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = mapOauth2AttributesToUser(principal.getAttributes());
         return userMapper.readUserDTOToUser(user);
+    }
+
+    public Optional<ReadUserDTO> getByEmail(String email) {
+        Optional<User> oneByEmail = userRepository.findOneByEmail(email);
+        return oneByEmail.map(userMapper::readUserDTOToUser);
+    }
+
+    public boolean isAuthenticated() {
+        return !SecurityContextHolder.getContext().getAuthentication().getPrincipal().equals("anonymousUser");
     }
 
     private void updateUser(User user) {

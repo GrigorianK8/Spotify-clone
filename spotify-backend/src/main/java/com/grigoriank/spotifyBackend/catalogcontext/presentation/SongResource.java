@@ -2,11 +2,16 @@ package com.grigoriank.spotifyBackend.catalogcontext.presentation;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.grigoriank.spotifyBackend.catalogcontext.application.SongService;
+import com.grigoriank.spotifyBackend.catalogcontext.application.dto.FavoriteSongDTO;
 import com.grigoriank.spotifyBackend.catalogcontext.application.dto.ReadSongInfoDTO;
 import com.grigoriank.spotifyBackend.catalogcontext.application.dto.SaveSongDTO;
 import com.grigoriank.spotifyBackend.catalogcontext.application.dto.SongContentDTO;
+import com.grigoriank.spotifyBackend.infrastructure.service.dto.State;
+import com.grigoriank.spotifyBackend.infrastructure.service.dto.StatusNotification;
+import com.grigoriank.spotifyBackend.usercontext.ReadUserDTO;
 import com.grigoriank.spotifyBackend.usercontext.application.UserService;
 import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Valid;
 import jakarta.validation.Validator;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -71,6 +76,30 @@ public class SongResource {
         return songContentByPublicId.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity
                         .of(ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "UUID unknown")).build());
+    }
+
+    @GetMapping("/songs/search")
+    public ResponseEntity<List<ReadSongInfoDTO>> search(@RequestParam String term) {
+        return ResponseEntity.ok(songService.search(term));
+    }
+
+    @PostMapping("/songs/like")
+    public ResponseEntity<FavoriteSongDTO> addOrRemoveFromFavorite(@Valid @RequestBody FavoriteSongDTO favoriteSongDTO) {
+        ReadUserDTO userFromAuthentication = userService.getAuthenticatedUserFromSecurityContext();
+        State<FavoriteSongDTO, String> favoriteSongResponse = songService.addOrRemoveFromFavorite(favoriteSongDTO, userFromAuthentication.email());
+
+        if(favoriteSongResponse.getStatus().equals(StatusNotification.ERROR)) {
+            ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, favoriteSongResponse.getError());
+            return ResponseEntity.of(problemDetail).build();
+        } else {
+            return ResponseEntity.ok(favoriteSongResponse.getValue());
+        }
+    }
+
+    @GetMapping("/songs/like")
+    public ResponseEntity<List<ReadSongInfoDTO>> fetchFavoriteSongs() {
+        ReadUserDTO userFromAuthentication = userService.getAuthenticatedUserFromSecurityContext();
+        return ResponseEntity.ok(songService.fetchFavoriteSongs(userFromAuthentication.email()));
     }
 }
 

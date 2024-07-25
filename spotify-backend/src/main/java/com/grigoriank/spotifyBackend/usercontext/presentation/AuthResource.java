@@ -36,7 +36,7 @@ public class AuthResource {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         } else {
             userService.syncWithIdp(user);
-            ReadUserDTO userFromAuthentication = userService.getAuthenticateUserFromSecurityContext();
+            ReadUserDTO userFromAuthentication = userService.getAuthenticatedUserFromSecurityContext();
             return ResponseEntity.ok().body(userFromAuthentication);
         }
     }
