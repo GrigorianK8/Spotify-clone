@@ -3,3 +3,46 @@
 /* Importing Bootstrap SCSS file. */
 @import 'assets/scss/bootstrap-variables';
 @import 'bootstrap/scss/bootstrap';
+
+.nav-icon {
+  font-size: 20px;
+}
+
+.song-card-background {
+  cursor: pointer;
+  background-color: $card-inactive-background;
+}
+
+.song-card-background:hover {
+  background-color: $card-hover-background;
+  border-radius: $card-border-radius;
+}
+
+.author {
+  color: $secondary;
+  font-size: $font-size-small;
+}
+
+/*Scrollbar*/
+
+.scrollbar-ui {
+  overflow: hidden;
+}
+
+.scrollbar-ui:hover {
+  overflow-y: auto;
+}
+
+.scrollbar-ui::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollbar-ui::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.scrollbar-ui::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
