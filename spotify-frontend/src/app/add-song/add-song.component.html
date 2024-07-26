@@ -47,7 +47,7 @@
       <div class="d-grid">
         <button class="btn btn-primary" [disabled]="createForm.invalid || isCreating" type="submit">
           @if(!isCreating) {
-            <div>Add</div>
+            <div class="add-btn">Add</div>
           } @else if(isCreating) {
             <div class="d-flex align-items-center justify-content-center">
               <fa-icon icon="circle-notch" class="me-2" animation="spin"></fa-icon>

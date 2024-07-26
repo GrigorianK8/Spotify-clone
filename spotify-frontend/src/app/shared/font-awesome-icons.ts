@@ -1,4 +1,4 @@
-import {IconDefinition} from "@fortawesome/free-regular-svg-icons";
+import {faHeart, IconDefinition} from "@fortawesome/free-regular-svg-icons";
 import {
   faBackwardStep,
   faBook,
@@ -9,6 +9,8 @@ import {
   faPlus,
   faSearch, faUser, faVolumeHigh, faVolumeLow, faVolumeMute
 } from "@fortawesome/free-solid-svg-icons";
+
+import {faHeart as faHeartRegular} from '@fortawesome/free-regular-svg-icons'
 
 export const fontAwesomeIcons: IconDefinition[] = [
   faCirclePlay,
@@ -26,5 +28,7 @@ export const fontAwesomeIcons: IconDefinition[] = [
   faCirclePause,
   faVolumeMute,
   faVolumeLow,
-  faVolumeHigh
+  faVolumeHigh,
+  faHeart,
+  faHeartRegular
 ]

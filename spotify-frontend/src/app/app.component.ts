@@ -1,5 +1,5 @@
 import {Component, effect, inject, OnInit} from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import {RouterOutlet} from '@angular/router';
 import {FaIconLibrary, FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 import {fontAwesomeIcons} from "./shared/font-awesome-icons";
 import {NavigationComponent} from "./layout/navigation/navigation.component";
@@ -14,23 +14,29 @@ import {AuthPopupComponent} from "./layout/auth-popup/auth-popup.component";
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, FontAwesomeModule, NavigationComponent, LibraryComponent, HeaderComponent, NgbToast, PlayerComponent],
+  imports: [RouterOutlet,
+    FontAwesomeModule,
+    NavigationComponent,
+    LibraryComponent,
+    HeaderComponent,
+    NgbToast,
+    PlayerComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit {
-  title = 'spotify-frontend';
+
+  title = 'spotify-clone-front';
 
   private faIconLibrary = inject(FaIconLibrary);
 
-  toastService = inject(ToastService)
+  toastService = inject(ToastService);
 
-  private authService = inject(AuthService)
+  private authService = inject(AuthService);
 
-  private modalService = inject(NgbModal)
+  private modalService = inject(NgbModal);
 
-  private authModalRef: NgbModalRef | null = null
-
+  private authModalRef: NgbModalRef | null = null;
 
   constructor() {
     effect(() => {
@@ -40,7 +46,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.initFontAwesome();
-    this.toastService.show('Hello toast', "DANGER")
   }
 
   private initFontAwesome() {
@@ -48,11 +53,11 @@ export class AppComponent implements OnInit {
   }
 
   private openOrCloseAuthModal(state: AuthPopupState) {
-    if (state === "OPEN") {
-      this.openAuthPopup()
-    } else if (this.authModalRef !== null && state === "CLOSE"
+    if(state === "OPEN") {
+      this.openAuthPopup();
+    } else if(this.authModalRef !== null && state === "CLOSE"
       && this.modalService.hasOpenModals()) {
-      this.authModalRef.close()
+      this.authModalRef.close();
     }
   }
 
@@ -60,18 +65,18 @@ export class AppComponent implements OnInit {
     this.authModalRef = this.modalService.open(AuthPopupComponent, {
       ariaDescribedBy: 'authentication-modal',
       centered: true
-    })
+    });
 
     this.authModalRef.dismissed.subscribe({
       next: () => {
-        this.authService.openOrCloseAuthPopup('CLOSE')
+        this.authService.openOrCloseAuthPopup("CLOSE");
       }
-    })
+    });
 
     this.authModalRef.closed.subscribe({
       next: () => {
-        this.authService.openOrCloseAuthPopup('CLOSE')
+        this.authService.openOrCloseAuthPopup("CLOSE");
       }
-    })
+    });
   }
 }
